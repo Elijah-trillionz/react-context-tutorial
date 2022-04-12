@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AppContext } from '../context/AppState';
 
-const PostItem = ({ id, title, body, deletePost }) => {
+const PostItem = ({ post: { title, id, body } }) => {
+  const { deletePost } = useContext(AppContext);
+
   return (
     <li>
       <h2>{title}</h2>

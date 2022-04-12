@@ -1,17 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AppContext } from '../context/AppState';
 import PostItem from './PostItem';
 
-const PostList = ({ posts, deletePost }) => {
+const PostList = () => {
+  const { posts } = useContext(AppContext);
+
   return (
     <ul>
       {posts.map((post) => (
-        <PostItem
-          key={post.id}
-          id={post.id}
-          title={post.title}
-          body={post.body}
-          deletePost={deletePost}
-        />
+        <PostItem key={post.id} post={post} />
       ))}
     </ul>
   );

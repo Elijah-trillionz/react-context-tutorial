@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { AppContext, AppProvider } from './context/AppState';
 import './App.css';
 import './App.dark.css';
 import Header from './components/Header';
@@ -6,57 +7,28 @@ import PostList from './components/PostList';
 
 function App() {
   const [darkTheme, setDarkTheme] = useState(false);
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      title: 'Post One',
-      body: 'This is post one, do to it as you please',
-    },
-    {
-      id: 2,
-      title: 'Post Two',
-      body: 'This is post two, do to it as you please',
-    },
-    {
-      id: 3,
-      title: 'Post Three',
-      body: 'This is post three, do to it as you please',
-    },
-    {
-      id: 4,
-      title: 'Post Four',
-      body: 'This is post four, do to it as you please',
-    },
-  ]);
-
-  const deletPost = (id) => {
-    setPosts((_posts) => _posts.filter((post) => post.id !== id));
-  };
-
-  const addPost = (post) => {
-    setPosts((_posts) => [..._posts, post]);
-  };
 
   return (
-    <>
-      <Header
-        numOfPosts={posts.length}
-        addPost={addPost}
-        darkTheme={darkTheme}
-      />
-      <main className={`${darkTheme ? 'dark' : ''}`}>
-        <h3>
-          New Posts: <span>{posts.length} posts</span>
-        </h3>
-        <PostList posts={posts} deletePost={deletPost} />
-      </main>
+    <AppProvider>
+      <Header darkTheme={darkTheme} />
+      <AppContext.Consumer>
+        {/* explain why you used this consumer */}
+        {({ posts }) => (
+          <main className={`${darkTheme ? 'dark' : ''}`}>
+            <h3>
+              New Posts: <span>{posts.length} posts</span>
+            </h3>
+            <PostList />
+          </main>
+        )}
+      </AppContext.Consumer>
       <footer
         onClick={() => setDarkTheme(!darkTheme)}
         className={`${darkTheme ? 'dark' : ''}`}
       >
         <i className={`fas fa-${darkTheme ? 'sun' : 'moon'}`}></i>
       </footer>
-    </>
+    </AppProvider>
   );
 }
 
