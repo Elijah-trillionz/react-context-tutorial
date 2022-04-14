@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { AppContext, AppProvider } from './context/AppState';
 import './App.css';
 import './App.dark.css';
@@ -6,28 +5,29 @@ import Header from './components/Header';
 import PostList from './components/PostList';
 
 function App() {
-  const [darkTheme, setDarkTheme] = useState(false);
-
   return (
     <AppProvider>
-      <Header darkTheme={darkTheme} />
+      <Header />
       <AppContext.Consumer>
         {/* explain why you used this consumer */}
-        {({ posts }) => (
-          <main className={`${darkTheme ? 'dark' : ''}`}>
-            <h3>
-              New Posts: <span>{posts.length} posts</span>
-            </h3>
-            <PostList />
-          </main>
+        {({ posts, darkTheme, setDarkTheme }) => (
+          <>
+            <main className={`${darkTheme ? 'dark' : ''}`}>
+              <h3>
+                New Posts: <span>{posts.length} posts</span>
+              </h3>
+              <PostList />
+            </main>
+
+            <footer
+              onClick={() => setDarkTheme(!darkTheme)}
+              className={`${darkTheme ? 'dark' : ''}`}
+            >
+              <i className={`fas fa-${darkTheme ? 'sun' : 'moon'}`}></i>
+            </footer>
+          </>
         )}
       </AppContext.Consumer>
-      <footer
-        onClick={() => setDarkTheme(!darkTheme)}
-        className={`${darkTheme ? 'dark' : ''}`}
-      >
-        <i className={`fas fa-${darkTheme ? 'sun' : 'moon'}`}></i>
-      </footer>
     </AppProvider>
   );
 }

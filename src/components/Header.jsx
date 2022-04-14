@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { AppContext } from '../context/AppState';
 import AddPost from './AddPost';
 
-const Header = ({ darkTheme }) => {
+const Header = () => {
+  const { darkTheme } = useContext(AppContext);
   const [openPostModal, setOpenModal] = useState(false);
 
   const closeModal = () => {

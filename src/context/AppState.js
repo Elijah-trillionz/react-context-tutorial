@@ -14,6 +14,12 @@ const appReducer = (state, action) => {
         posts: [...state.posts, action.payload],
       };
     }
+    case 'SET_DARK_THEME': {
+      return {
+        ...state,
+        darkTheme: action.payload,
+      };
+    }
     default: {
       return state;
     }
@@ -43,6 +49,7 @@ const initialState = {
       body: 'This is post four, do to it as you please',
     },
   ],
+  darkTheme: false,
 };
 
 export const AppContext = createContext(initialState);
@@ -64,8 +71,23 @@ export const AppProvider = ({ children }) => {
     });
   };
 
+  const setDarkTheme = (bool) => {
+    dispatch({
+      type: 'SET_DARK_THEME',
+      payload: bool,
+    });
+  };
+
   return (
-    <AppContext.Provider value={{ posts: state.posts, deletePost, addPost }}>
+    <AppContext.Provider
+      value={{
+        posts: state.posts,
+        darkTheme: state.darkTheme,
+        deletePost,
+        addPost,
+        setDarkTheme,
+      }}
+    >
       {children}
     </AppContext.Provider>
   );
